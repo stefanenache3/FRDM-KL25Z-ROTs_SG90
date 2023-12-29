@@ -1,6 +1,5 @@
 #include "Sequencer.h"
 
-uint8_t state=0;
 void led_init(){
 	
 	SIM->SCGC5 |= SIM_SCGC5_PORTB_MASK | SIM_SCGC5_PORTD_MASK ;
@@ -25,7 +24,7 @@ void led_init(){
 	
 }
 
-void sequence_leds(){
+void sequence_leds(uint32_t state){
 	
 	switch(state){
 		
@@ -52,12 +51,4 @@ void sequence_leds(){
 		PTD->PSOR = (1 << BLUE_LED_PIN);
 		break;
 	}
-	
-	state=(state+1)%4;
-}
-
-
-void delay(long int n) {
-    volatile long int i;
-    for (i = 0; i < n; i++);
 }

@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.37.0.0
 Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Stefan Enache, Military Technical Academy, LIC=----
+License Information: Luca Mitran, Academia Tehnica Militara , LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.37.0.0
@@ -21,74 +21,74 @@ Target DLL:      CMSIS_AGDI.dll V1.33.12.0
 Dialog DLL:      TARMCM1.DLL V1.14.6.0
  
 <h2>Project:</h2>
-C:\ATM\ANUL_4\Microcontrolere\Proiect_git\src\proiect.uvprojx
-Project File Date:  12/17/2023
+C:\Users\Radu\Desktop\ATM\AN4eu\MP Proiect\FRDM-KL25Z-ROTs_SG90\FRDM-KL25Z-ROTs_SG90\src\proiect.uvprojx
+Project File Date:  12/29/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
+pit.c(1): warning: In file included from...
+./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void PIT_Init(void); // Functie de initializarea a modulului periferic
+                     ^
+./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
+void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
+                                                                                         ^
+pit.c(2): warning: In file included from...
+./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void led_init();
+             ^
+              void
+pit.c(6): warning: // comments are not allowed in this language [-Wcomment]
+        // Activarea semnalului de ceas pentru perifericul PIT
+        ^
+pit.c(46): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+5 warnings generated.
+compiling pit.c...
 main.c(2): warning: In file included from...
 ./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
 void led_init();
              ^
               void
-./Sequencer.h(9): warning: this function declaration is not a prototype [-Wstrict-prototypes]
-void sequence_leds();
-                  ^
-                   void
-main.c(11): warning: no newline at end of file [-Wnewline-eof]
+main.c(3): warning: In file included from...
+./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void PIT_Init(void); // Functie de initializarea a modulului periferic
+                     ^
+./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
+void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
+                                                                                         ^
+main.c(10): warning: no newline at end of file [-Wnewline-eof]
 }
  ^
-main.c(10): warning: 'return' will never be executed [-Wunreachable-code-return]
+main.c(9): warning: 'return' will never be executed [-Wunreachable-code-return]
         return 0;
                ^
-4 warnings generated.
+5 warnings generated.
 compiling main.c...
-compiling system_MKL25Z4.c...
 Sequencer.c(1): warning: In file included from...
 ./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
 void led_init();
              ^
               void
-./Sequencer.h(9): warning: this function declaration is not a prototype [-Wstrict-prototypes]
-void sequence_leds();
-                  ^
-                   void
-Sequencer.c(3): warning: no previous extern declaration for non-static variable 'state' [-Wmissing-variable-declarations]
-uint8_t state=0;
-        ^
-Sequencer.c(3): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-uint8_t state=0;
-^
-Sequencer.c(4): warning: no previous prototype for function 'led_init' [-Wmissing-prototypes]
+Sequencer.c(3): warning: no previous prototype for function 'led_init' [-Wmissing-prototypes]
 void led_init(){
      ^
 ./Sequencer.h(8): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
 void led_init();
      ^
               void
-Sequencer.c(4): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
+Sequencer.c(3): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
 void led_init(){
              ^
-Sequencer.c(28): warning: no previous prototype for function 'sequence_leds' [-Wmissing-prototypes]
-void sequence_leds(){
-     ^
-./Sequencer.h(9): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
-void sequence_leds();
-     ^
-                   void
-Sequencer.c(28): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-void sequence_leds(){
-                  ^
-Sequencer.c(63): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-8 warnings generated.
+3 warnings generated.
 compiling Sequencer.c...
+compiling system_MKL25Z4.c...
 assembling startup_MKL25Z4.s...
 linking...
-Program Size: Code=684 RO-data=356 RW-data=0 ZI-data=360  
-".\Objects\proiect.axf" - 0 Error(s), 12 Warning(s).
+Program Size: Code=1060 RO-data=244 RW-data=0 ZI-data=360  
+".\Objects\proiect.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -99,26 +99,26 @@ Package Vendor: ARM
    * Component: CORE Version: 5.6.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.Kinetis_KLxx_DFP.1.15.0.pack
-                Keil.Kinetis_KLxx_DFP.1.15.0
+                https://www.keil.com/pack/Keil.Kinetis_KLxx_DFP.1.15.1.pack
+                Keil.Kinetis_KLxx_DFP.1.15.1
                 NXP Kinetis KLxx Series Device Support and Examples
    * Component: Startup Version: 2.5.0
 
 <h2>Collection of Component include folders:</h2>
   ./RTE/Device/MKL25Z128xxx4
   ./RTE/_Target_1
-  C:/Users/stefa/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
-  C:/Users/stefa/AppData/Local/Arm/Packs/Keil/Kinetis_KLxx_DFP/1.15.0/Device/Include
+  C:/Users/Radu/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+  C:/Users/Radu/AppData/Local/Arm/Packs/Keil/Kinetis_KLxx_DFP/1.15.1/Device/Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:2.5.0
+      Source file:   Device/Source/ARM/startup_MKL25Z4.s
       Include file:  Device/Source/system_MKL25Z4.h
       Source file:   Device/Source/system_MKL25Z4.c
-      Source file:   Device/Source/ARM/startup_MKL25Z4.s
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

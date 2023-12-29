@@ -6,4 +6,4 @@
 
 void delay(long int n);
 void led_init();
-void sequence_leds();
+void sequence_leds(uint32_t state);
