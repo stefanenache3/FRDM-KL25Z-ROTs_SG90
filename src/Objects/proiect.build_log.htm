@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.37.0.0
 Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Stefan Enache, Military Technical Academy, LIC=----
+License Information: Luca Mitran, Academia Tehnica Militara , LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.37.0.0
@@ -21,22 +21,74 @@ Target DLL:      CMSIS_AGDI.dll V1.33.12.0
 Dialog DLL:      TARMCM1.DLL V1.14.6.0
  
 <h2>Project:</h2>
-C:\ATM\ANUL_4\Microcontrolere\Proiect_git\src\proiect.uvprojx
-Project File Date:  12/11/2023
+C:\Users\Radu\Desktop\ATM\AN4eu\MP Proiect\FRDM-KL25Z-ROTs_SG90\FRDM-KL25Z-ROTs_SG90\src\proiect.uvprojx
+Project File Date:  12/29/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-assembling startup_MKL25Z4.s...
-main.c(6): warning: no newline at end of file [-Wnewline-eof]
+pit.c(1): warning: In file included from...
+./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void PIT_Init(void); // Functie de initializarea a modulului periferic
+                     ^
+./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
+void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
+                                                                                         ^
+pit.c(2): warning: In file included from...
+./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void led_init();
+             ^
+              void
+pit.c(6): warning: // comments are not allowed in this language [-Wcomment]
+        // Activarea semnalului de ceas pentru perifericul PIT
+        ^
+pit.c(46): warning: no newline at end of file [-Wnewline-eof]
 }
  ^
-1 warning generated.
+5 warnings generated.
+compiling pit.c...
+main.c(2): warning: In file included from...
+./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void led_init();
+             ^
+              void
+main.c(3): warning: In file included from...
+./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void PIT_Init(void); // Functie de initializarea a modulului periferic
+                     ^
+./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
+void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
+                                                                                         ^
+main.c(10): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+main.c(9): warning: 'return' will never be executed [-Wunreachable-code-return]
+        return 0;
+               ^
+5 warnings generated.
 compiling main.c...
+Sequencer.c(1): warning: In file included from...
+./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void led_init();
+             ^
+              void
+Sequencer.c(3): warning: no previous prototype for function 'led_init' [-Wmissing-prototypes]
+void led_init(){
+     ^
+./Sequencer.h(8): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
+void led_init();
+     ^
+              void
+Sequencer.c(3): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
+void led_init(){
+             ^
+3 warnings generated.
+compiling Sequencer.c...
 compiling system_MKL25Z4.c...
+assembling startup_MKL25Z4.s...
 linking...
-Program Size: Code=348 RO-data=692 RW-data=0 ZI-data=352  
-".\Objects\proiect.axf" - 0 Error(s), 1 Warning(s).
+Program Size: Code=1060 RO-data=244 RW-data=0 ZI-data=360  
+".\Objects\proiect.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -47,16 +99,16 @@ Package Vendor: ARM
    * Component: CORE Version: 5.6.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.Kinetis_KLxx_DFP.1.15.0.pack
-                Keil.Kinetis_KLxx_DFP.1.15.0
+                https://www.keil.com/pack/Keil.Kinetis_KLxx_DFP.1.15.1.pack
+                Keil.Kinetis_KLxx_DFP.1.15.1
                 NXP Kinetis KLxx Series Device Support and Examples
    * Component: Startup Version: 2.5.0
 
 <h2>Collection of Component include folders:</h2>
   ./RTE/Device/MKL25Z128xxx4
   ./RTE/_Target_1
-  C:/Users/stefa/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
-  C:/Users/stefa/AppData/Local/Arm/Packs/Keil/Kinetis_KLxx_DFP/1.15.0/Device/Include
+  C:/Users/Radu/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+  C:/Users/Radu/AppData/Local/Arm/Packs/Keil/Kinetis_KLxx_DFP/1.15.1/Device/Include
 
 <h2>Collection of Component Files used:</h2>
 
@@ -64,8 +116,8 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:2.5.0
       Source file:   Device/Source/ARM/startup_MKL25Z4.s
-      Source file:   Device/Source/system_MKL25Z4.c
       Include file:  Device/Source/system_MKL25Z4.h
+      Source file:   Device/Source/system_MKL25Z4.c
 Build Time Elapsed:  00:00:01
 </pre>
 </body>
