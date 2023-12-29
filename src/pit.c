@@ -9,21 +9,14 @@ void PIT_Init(void) {
 	PIT_MCR &= ~PIT_MCR_MDIS_MASK;
 	// Oprirea decrementarii valorilor numaratoarelor in modul debug
 	PIT->MCR |= PIT_MCR_FRZ_MASK;
-	// Setarea valoarea numaratorului de pe canalul 0 la o perioada de 1 secunda
-	PIT->CHANNEL[0].LDVAL = 0x9FFFFF;
+	// Setarea valoarea numaratorului de pe canalul 0 la o perioada de 629 ms
+	PIT->CHANNEL[0].LDVAL = 0x64A3D6;
 	
   // Activarea întreruperilor pe canalul 0
 	PIT->CHANNEL[0].TCTRL |= PIT_TCTRL_TIE_MASK;
 	// Activarea timerului de pe canalul 0
 	PIT->CHANNEL[0].TCTRL |= PIT_TCTRL_TEN_MASK;
 	
-	// Setarea valoarea numaratorului de pe canalul 1 la o perioada de 10 secunde
-	PIT->CHANNEL[1].LDVAL = 0x63FFFFF;
-	
-	// Activara întreruperilor pe canalul 1
-	PIT->CHANNEL[1].TCTRL |= PIT_TCTRL_TIE_MASK;
-	// Activarea timerului de pe canalul 1
-	PIT->CHANNEL[1].TCTRL |= PIT_TCTRL_TEN_MASK;
 	
 	
 	// Activarea întreruperii mascabile si setarea prioritatiis
@@ -40,7 +33,5 @@ void PIT_IRQHandler(void) {
 		PIT->CHANNEL[0].TFLG &= PIT_TFLG_TIF_MASK;
 		sequence_leds(led_turn);
 	}
-	if(PIT->CHANNEL[1].TFLG & PIT_TFLG_TIF_MASK) {
-		PIT->CHANNEL[1].TFLG &= PIT_TFLG_TIF_MASK;
-	}
+	
 }

@@ -27,26 +27,24 @@ Project File Date:  12/29/2023
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-pit.c(1): warning: In file included from...
-./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
-void PIT_Init(void); // Functie de initializarea a modulului periferic
-                     ^
-./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
-void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
-                                                                                         ^
-pit.c(2): warning: In file included from...
+compiling system_MKL25Z4.c...
+Sequencer.c(1): warning: In file included from...
 ./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
 void led_init();
              ^
               void
-pit.c(6): warning: // comments are not allowed in this language [-Wcomment]
-        // Activarea semnalului de ceas pentru perifericul PIT
-        ^
-pit.c(46): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-5 warnings generated.
-compiling pit.c...
+Sequencer.c(3): warning: no previous prototype for function 'led_init' [-Wmissing-prototypes]
+void led_init(){
+     ^
+./Sequencer.h(8): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
+void led_init();
+     ^
+              void
+Sequencer.c(3): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
+void led_init(){
+             ^
+3 warnings generated.
+compiling Sequencer.c...
 main.c(2): warning: In file included from...
 ./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
 void led_init();
@@ -67,27 +65,29 @@ main.c(9): warning: 'return' will never be executed [-Wunreachable-code-return]
                ^
 5 warnings generated.
 compiling main.c...
-Sequencer.c(1): warning: In file included from...
+pit.c(1): warning: In file included from...
+./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void PIT_Init(void); // Functie de initializarea a modulului periferic
+                     ^
+./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
+void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
+                                                                                         ^
+pit.c(2): warning: In file included from...
 ./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
 void led_init();
              ^
               void
-Sequencer.c(3): warning: no previous prototype for function 'led_init' [-Wmissing-prototypes]
-void led_init(){
-     ^
-./Sequencer.h(8): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
-void led_init();
-     ^
-              void
-Sequencer.c(3): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-void led_init(){
-             ^
-3 warnings generated.
-compiling Sequencer.c...
-compiling system_MKL25Z4.c...
+pit.c(6): warning: // comments are not allowed in this language [-Wcomment]
+        // Activarea semnalului de ceas pentru perifericul PIT
+        ^
+pit.c(37): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+5 warnings generated.
+compiling pit.c...
 assembling startup_MKL25Z4.s...
 linking...
-Program Size: Code=1060 RO-data=244 RW-data=0 ZI-data=360  
+Program Size: Code=1012 RO-data=208 RW-data=0 ZI-data=360  
 ".\Objects\proiect.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -118,7 +118,7 @@ Package Vendor: Keil
       Source file:   Device/Source/ARM/startup_MKL25Z4.s
       Include file:  Device/Source/system_MKL25Z4.h
       Source file:   Device/Source/system_MKL25Z4.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

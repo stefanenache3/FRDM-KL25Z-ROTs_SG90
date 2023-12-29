@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\proiect.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\proiect.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Fri Dec 29 12:05:31 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Fri Dec 29 12:14:26 2023
 <BR><P>
 <H3>Maximum Stack Usage =         56 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -386,14 +386,14 @@ Global Symbols
 
 <P><STRONG><a name="[6c]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, indicate_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[1c]"></a>PIT_IRQHandler</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, pit.o(.text.PIT_IRQHandler))
+<P><STRONG><a name="[1c]"></a>PIT_IRQHandler</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, pit.o(.text.PIT_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = PIT_IRQHandler &rArr; sequence_leds
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sequence_leds
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mkl25z4.o(RESET)
 </UL>
-<P><STRONG><a name="[3c]"></a>PIT_Init</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, pit.o(.text.PIT_Init))
+<P><STRONG><a name="[3c]"></a>PIT_Init</STRONG> (Thumb, 80 bytes, Stack size 16 bytes, pit.o(.text.PIT_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = PIT_Init &rArr; __NVIC_SetPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_EnableIRQ
@@ -406,6 +406,12 @@ Global Symbols
 <P><STRONG><a name="[26]"></a>SystemInit</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, system_mkl25z4.o(.text.SystemInit))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mkl25z4.o(.text)
 </UL>
+<P><STRONG><a name="[40]"></a>led_init</STRONG> (Thumb, 92 bytes, Stack size 8 bytes, sequencer.o(.text.led_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = led_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
 <P><STRONG><a name="[32]"></a>main</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = main &rArr; PIT_Init &rArr; __NVIC_SetPriority
 </UL>
@@ -413,12 +419,6 @@ Global Symbols
 <LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
-</UL>
-
-<P><STRONG><a name="[40]"></a>led_init</STRONG> (Thumb, 92 bytes, Stack size 8 bytes, sequencer.o(.text.led_init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = led_init
-</UL>
-<BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[3b]"></a>sequence_leds</STRONG> (Thumb, 128 bytes, Stack size 8 bytes, sequencer.o(.text.sequence_leds))
