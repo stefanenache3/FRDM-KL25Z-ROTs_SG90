@@ -1,5 +1,6 @@
 #include "uart.h"
 
+uint8_t led_sequence_direction=1;
 void UART0_Transmit(uint8_t data) {
 	while(!(UART0->S1 & UART_S1_TDRE_MASK)) {}
 	UART0->D = data;
@@ -9,7 +10,7 @@ uint8_t UART0_Receive(void) {
 	return UART0->D;
 }
 void UART0_Initialize(uint32_t baud_rate) {
-	uint16_t osr = 16;
+	uint16_t osr = 8;
 	uint16_t sbr;
 	
 	SIM->SCGC4 = SIM->SCGC4 | SIM_SCGC4_UART0_MASK;
@@ -40,6 +41,7 @@ void UART0_Initialize(uint32_t baud_rate) {
 	
 	UART0->C2 |= ((UART_C2_RE_MASK) | (UART_C2_TE_MASK));
 	
+	
 	NVIC_ClearPendingIRQ(UART0_IRQn);
 	NVIC_EnableIRQ(UART0_IRQn);
 	
@@ -51,6 +53,15 @@ void UART0_IRQHandler(void) {
 	static uint8_t vector[128];
 	static uint8_t read_index=0;
 	if(UART0->S1 & UART0_S1_RDRF_MASK) {
+		uint8_t data=UART0->D;
+		if(data=='N')
+		{
+			led_sequence_direction=1;
+		}
+		if(data=='R')
+		{
+			led_sequence_direction=2;
+		}
 	  //Do something with the data
 		read_index++;
 	}
