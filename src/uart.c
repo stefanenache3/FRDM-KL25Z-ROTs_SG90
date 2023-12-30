@@ -40,11 +40,12 @@ void UART0_Initialize(uint32_t baud_rate) {
 	
 	UART0->C2 |= ((UART_C2_RE_MASK) | (UART_C2_TE_MASK));
 	
+	/*
 	NVIC_ClearPendingIRQ(UART0_IRQn);
 	NVIC_EnableIRQ(UART0_IRQn);
 	
 	__enable_irq();
-	
+	*/
 }
 
 void UART0_IRQHandler(void) {

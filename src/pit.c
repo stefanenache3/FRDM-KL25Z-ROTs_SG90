@@ -1,6 +1,6 @@
 #include "pit.h"
 #include "Sequencer.h"
-
+#include "adc.h"
 void PIT_Init(void) {
 	
 	// Activarea semnalului de ceas pentru perifericul PIT
@@ -18,11 +18,21 @@ void PIT_Init(void) {
 	PIT->CHANNEL[0].TCTRL |= PIT_TCTRL_TEN_MASK;
 	
 	
+	// Setarea valoarea numaratorului de pe canalul 1 la o perioada de 50ms
+	PIT->CHANNEL[1].LDVAL = 959999;
+	
+	// Activara întreruperilor pe canalul 1
+	PIT->CHANNEL[1].TCTRL |= PIT_TCTRL_TIE_MASK;
+	// Activarea timerului de pe canalul 1
+	PIT->CHANNEL[1].TCTRL |= PIT_TCTRL_TEN_MASK;
+	
+	
 	
 	// Activarea întreruperii mascabile si setarea prioritatiis
 	NVIC_ClearPendingIRQ(PIT_IRQn);
 	NVIC_SetPriority(PIT_IRQn,5);
 	NVIC_EnableIRQ(PIT_IRQn);
+	__enable_irq();
 }
 void PIT_IRQHandler(void) {
 	static uint32_t led_turn=0;
@@ -32,6 +42,11 @@ void PIT_IRQHandler(void) {
 		led_turn=led_turn%4;
 		PIT->CHANNEL[0].TFLG &= PIT_TFLG_TIF_MASK;
 		sequence_leds(led_turn);
+	}
+	if(PIT->CHANNEL[1].TFLG & PIT_TFLG_TIF_MASK) {
+	
+		PIT->CHANNEL[1].TFLG &= PIT_TFLG_TIF_MASK;
+		ADC0_Func();
 	}
 	
 }
