@@ -9,7 +9,7 @@ int main(void){
 	led_init();	
 	PIT_Init();
 
-	UART0_Initialize(115200);
+	UART0_Initialize(38400);
 	ADC0_Init();
 
 	

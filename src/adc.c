@@ -3,6 +3,22 @@
 
 #define ADC_CHANNEL (8) // PORT B PIN 0
 
+uint8_t find_Interval(float angle)
+{
+	if (angle<60.0f)
+	{
+	return FIRST_INTERVAL;
+	}
+	else if(angle <120.0f)
+	{
+	return SECOND_INTERVAL;
+	}
+	else
+	{
+		return THIRD_INTERVAL;
+	}
+}
+
 void ADC0_Init() {
 	
 	// Activarea semnalului de ceas pentru modulul periferic ADC
@@ -15,11 +31,11 @@ void ADC0_Init() {
 	
 	ADC0->CFG1 = 0x00;
 
-	// Selectarea modului de conversie pe 16 biti single-ended --> MODE
+	// Selectarea modului de conversie pe 10 biti single-ended --> MODE
 	// Selectarea sursei de ceas pentru generarea ceasului intern --> ADICLK
 	// Selectarea ratei de divizare folosit de periferic pentru generarea ceasului intern --> ADIV
 	// Set ADC clock frequency fADCK less than or equal to 4 MHz (PG. 494)
-	ADC0->CFG1 |= ADC_CFG1_MODE(3) |
+	ADC0->CFG1 |= ADC_CFG1_MODE(2) |
 							 ADC_CFG1_ADICLK(0) |
 							 ADC_CFG1_ADIV(2);
 	
@@ -133,29 +149,41 @@ uint16_t ADC0_Read(){
 }
 
 void ADC0_Func(){
-	uint16_t analog_input = (uint16_t) ADC0->R[0];
-
-	float measured_voltage = (analog_input * 3.3f) / 65535;
+	
+	uint16_t analog_input = ADC0_Read();
+	//Apeleaza aici functia pentru a intoarce motorul!
+	
+	uint8_t interval=find_Interval((float)analog_input);
+	
+	
+	//!
+	
+	//Shiftare la stanga cu 6 pentru a aduce la 16 biti
+	//Rezultat pe 10 biti SE10
+	
+	analog_input=(analog_input)<<6;
+	float measured_voltage = (analog_input * 180.0f) / 65535;
 	
 	
 	uint8_t parte_zecimala = (uint8_t) measured_voltage;
+	uint8_t sute=(uint8_t)measured_voltage/100;
+	uint8_t zeci=(uint8_t)measured_voltage/10%10;
+	uint8_t unitati=(uint8_t)measured_voltage%10;
+	
 	uint8_t parte_fractionara1 = ((uint8_t)(measured_voltage * 10)) % 10;
 	uint8_t parte_fractionara2 = ((uint8_t)(measured_voltage * 100)) % 10;
-	UART0_Transmit('V');
-	UART0_Transmit('o');
-	UART0_Transmit('l');
-	UART0_Transmit('t');
-	UART0_Transmit('a');
-	UART0_Transmit('g');
-	UART0_Transmit('e');
-	UART0_Transmit(' ');
-	UART0_Transmit('=');
-	UART0_Transmit(' ');
-	UART0_Transmit(parte_zecimala + 0x30);
+	uint8_t parte_fractionara3 = ((uint8_t)(measured_voltage * 1000)) % 10;
+	
+	if(sute)
+	UART0_Transmit(sute + 0x30);
+	if(zeci)
+	UART0_Transmit(zeci + 0x30);
+	if(unitati)
+	UART0_Transmit(unitati + 0x30);
 	UART0_Transmit('.');
 	UART0_Transmit(parte_fractionara1 + 0x30);
 	UART0_Transmit(parte_fractionara2 + 0x30);
-	UART0_Transmit('V');
+	UART0_Transmit(parte_fractionara3 + 0x30);
 	UART0_Transmit(0x0A);
 	UART0_Transmit(0x0D);
 }
