@@ -22,12 +22,52 @@ Dialog DLL:      TARMCM1.DLL V1.14.6.0
  
 <h2>Project:</h2>
 C:\Users\Radu\Desktop\ATM\AN4eu\MP Proiect\FRDM-KL25Z-ROTs_SG90\FRDM-KL25Z-ROTs_SG90\src\proiect.uvprojx
-Project File Date:  12/29/2023
+Project File Date:  12/30/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
+main.c(2): warning: In file included from...
+./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void led_init();
+             ^
+              void
+main.c(3): warning: In file included from...
+./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void PIT_Init(void); // Functie de initializarea a modulului periferic
+                     ^
+./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
+void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
+                                                                                         ^
+main.c(4): warning: In file included from...
+./uart.h(7): warning: no newline at end of file [-Wnewline-eof]
+void UART0_IRQHandler(void);
+                            ^
+main.c(8): warning: // comments are not allowed in this language [-Wcomment]
+        //led_init();
+        ^
+main.c(18): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+main.c(17): warning: 'return' will never be executed [-Wunreachable-code-return]
+        return 0;
+               ^
+7 warnings generated.
+compiling main.c...
+assembling startup_MKL25Z4.s...
 compiling system_MKL25Z4.c...
+uart.c(1): warning: In file included from...
+./uart.h(7): warning: no newline at end of file [-Wnewline-eof]
+void UART0_IRQHandler(void);
+                            ^
+uart.c(65): warning: // comments are not allowed in this language [-Wcomment]
+                        //vector[write_index++]=data;
+                        ^
+uart.c(63): warning: unused variable 'a' [-Wunused-variable]
+                        int a;
+                            ^
+3 warnings generated.
+compiling uart.c...
 Sequencer.c(1): warning: In file included from...
 ./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
 void led_init();
@@ -45,26 +85,6 @@ void led_init(){
              ^
 3 warnings generated.
 compiling Sequencer.c...
-main.c(2): warning: In file included from...
-./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
-void led_init();
-             ^
-              void
-main.c(3): warning: In file included from...
-./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
-void PIT_Init(void); // Functie de initializarea a modulului periferic
-                     ^
-./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
-void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
-                                                                                         ^
-main.c(10): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-main.c(9): warning: 'return' will never be executed [-Wunreachable-code-return]
-        return 0;
-               ^
-5 warnings generated.
-compiling main.c...
 pit.c(1): warning: In file included from...
 ./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void PIT_Init(void); // Functie de initializarea a modulului periferic
@@ -85,10 +105,9 @@ pit.c(37): warning: no newline at end of file [-Wnewline-eof]
  ^
 5 warnings generated.
 compiling pit.c...
-assembling startup_MKL25Z4.s...
 linking...
-Program Size: Code=1012 RO-data=208 RW-data=0 ZI-data=360  
-".\Objects\proiect.axf" - 0 Error(s), 13 Warning(s).
+Program Size: Code=1440 RO-data=208 RW-data=0 ZI-data=488  
+".\Objects\proiect.axf" - 0 Error(s), 18 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -116,9 +135,9 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:2.5.0
       Source file:   Device/Source/ARM/startup_MKL25Z4.s
-      Include file:  Device/Source/system_MKL25Z4.h
       Source file:   Device/Source/system_MKL25Z4.c
-Build Time Elapsed:  00:00:00
+      Include file:  Device/Source/system_MKL25Z4.h
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
