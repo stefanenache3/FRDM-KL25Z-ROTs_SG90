@@ -1,14 +1,25 @@
 from PySide6.QtWidgets import QMainWindow, QHBoxLayout, QVBoxLayout, QWidget, QGroupBox, QLabel, QPushButton, QLineEdit, QTextEdit
 from PySide6.QtGui import QIcon, QPalette, QColor, QFont
 from PySide6.QtCore import Qt
+from PySide6.QtCore import QTimer
+from typing import List
 import pyqtgraph as pg
+import random as rand
+import serial
+def xor_byte_strings(bytes_str1, bytes_str2):
+        # Ensure both input strings are of equal length
+        if len(bytes_str1) != len(bytes_str2):
+         raise ValueError("Input byte strings must have the same length")
 
+        # Perform XOR byte by byte
+        result = bytes([a ^ b for a, b in zip(bytes_str1, bytes_str2)])
 
+        return result
 class MainWindow(QMainWindow):
     promotie: str = "2023-2024"
-    team: list[str] = [
-        "NUME1 PRENUME1",
-        "NUME2 PRENUME2",
+    team: List = [
+        "MITRAN LUCA",
+        "ENACHE STEFAN",
     ]
     def __init__(self):
         super().__init__()
@@ -57,13 +68,10 @@ class MainWindow(QMainWindow):
         tertiary_layout.addWidget(team_box, 1)
         tertiary_layout.addWidget(control_panel_box,5)
 
-        plot_widget = pg.PlotWidget()
-        hour = [1,2,3,4,5,6,7,8,9,10]
-        temperature = [30,32,34,32,33,31,29,32,35,45]
+        self.plot_widget = pg.PlotWidget()
+        
 
-        plot_widget.plot(hour, temperature)
-
-        secondary_layout.addWidget(plot_widget, 3)
+        secondary_layout.addWidget(self.plot_widget, 3)
         secondary_layout.addLayout(tertiary_layout, 1)
 
         primary_layout.addLayout(secondary_layout, 4)
@@ -81,8 +89,79 @@ class MainWindow(QMainWindow):
         widget.setLayout(primary_layout)
         
         self.setCentralWidget(widget)
+        
+        
+        
+       
+       
+        self.x_rotation = list(range(100))  # 100 time points
+        self.y_rotation = list(range(100))  # 100 data points
+
+
+        self.pen = pg.mkPen(color=(255, 0, 0))
+        self.data_line =  self.plot_widget.plot(self.x_rotation, self.y_rotation, pen=self.pen)
+
+    
+        self.timer = QTimer()
+        self.timer.setInterval(50)
+        self.timer.timeout.connect(self.update_plot_data)
+        self.timer.start()
+        
+    
 
     def send_input(self):
         input = self.line_edit.text()
         self.line_edit.clear()
         self.text_edit.insertPlainText(f"INPUT: {input}\n")
+        
+    def update_plot_data(self):
+         ser = serial.Serial('COM11', 38400)
+         data = ser.read(24)
+
+        #  print(data)
+        #  result=data.split(b'\x10\x10')
+        #  if data[1]!=b'\x10':
+        #      result.pop(0)
+        #  if data[len(data)-2]!=b'\x10':
+        #      result.pop(len(result)-1)
+        #  print (result)
+         result_rotation=[]
+         for i in range(0,len(data)-1):
+            if data[i]==0x10 and data[i+1]==0x99:
+                if i+3<len(data):
+                    byte=data[i+2]*256
+                    byte+=data[i+3]
+                    byte=byte.to_bytes(2,'big')
+                    result_rotation.append(byte)
+                i+=4
+                continue
+         result_temp=[]
+         for i in range(0,len(data)-1):
+            if data[i]==0x22 and data[i+1]==0x88:
+                if i+3<len(data):
+                    byte=data[i+2]*256
+                    byte+=data[i+3]
+                    byte=byte.to_bytes(2,'big')
+                    result_temp.append(byte)
+                i+=4
+                continue
+         print(data)
+         print(result_rotation)
+         self.x_rotation = self.x_rotation[len(result_rotation):]
+         for i in result_rotation:
+            self.x_rotation.append(self.x_rotation[-1] + 1)
+
+         self.y_rotation = self.y_rotation[len(result_rotation):]
+         for i in result_rotation:
+            altered= int.from_bytes(i,'big')
+            altered=altered/65535
+            altered=altered*180
+            self.y_rotation.append( altered)
+         #random_color = QColor(rand.randint(0, 255), rand.randint(0, 255), rand.randint(0, 255))
+
+         #self.pen = pg.mkPen(color=random_color)
+
+         # Set the new pen to the data line
+         #self.data_line.setPen(self.pen)
+
+         self.data_line.setData(self.x_rotation, self.y_rotation)
