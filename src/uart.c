@@ -10,6 +10,7 @@ uint8_t UART0_Receive(void) {
 	return UART0->D;
 }
 void UART0_Initialize(uint32_t baud_rate) {
+	//NU SE SETEAZA OSR IN C4
 	uint16_t osr = 8;
 	uint16_t sbr;
 	
@@ -29,11 +30,13 @@ void UART0_Initialize(uint32_t baud_rate) {
 	UART0->BDH &= UART0_BDH_SBR_MASK;
 	UART0->BDH |= UART0_BDH_SBR(sbr>>8);
 	UART0->BDL = UART_BDL_SBR(sbr);
-	UART0->C4 |= UART0_C4_OSR(osr - 1);
+	UART0->C4 &= UART0_C4_OSR(osr - 1);
 			
 	UART0->C1 = UART0_C1_M(0) | UART0_C1_PE(0);
 	
-	UART0->S2 = UART0_S2_MSBF(0);
+	UART0->S2 |= UART0_S2_MSBF(0);
+	 
+	//UART0->C3|= UART0_C3_TXINV(1);
 	
 	UART0->C2 |= UART0_C2_TIE(0) | UART0_C2_TCIE(0);
 	UART0->C2 |= UART0_C2_RIE_MASK;
@@ -50,8 +53,6 @@ void UART0_Initialize(uint32_t baud_rate) {
 }
 
 void UART0_IRQHandler(void) {
-	static uint8_t vector[128];
-	static uint8_t read_index=0;
 	if(UART0->S1 & UART0_S1_RDRF_MASK) {
 		uint8_t data=UART0->D;
 		if(data=='N')
@@ -62,8 +63,7 @@ void UART0_IRQHandler(void) {
 		{
 			led_sequence_direction=2;
 		}
-	  //Do something with the data
-		read_index++;
+	  
 	}
 	
 }

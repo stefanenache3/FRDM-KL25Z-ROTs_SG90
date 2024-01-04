@@ -21,33 +21,13 @@ Target DLL:      CMSIS_AGDI.dll V1.33.12.0
 Dialog DLL:      TARMCM1.DLL V1.14.6.0
  
 <h2>Project:</h2>
-C:\Users\Radu\Desktop\ATM\AN4eu\MP Proiect\FRDM-KL25Z-ROTs_SG90\FRDM-KL25Z-ROTs_SG90\src\proiect.uvprojx
-Project File Date:  12/30/2023
+C:\Users\Radu\Desktop\ATM\AN4eu\MP Proiect\FRDM-KL25Z-ROTs_SG90\v2\src\proiect.uvprojx
+Project File Date:  01/04/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-main.c(2): warning: In file included from...
-./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
-void led_init();
-             ^
-              void
-main.c(3): warning: In file included from...
-./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
-void PIT_Init(void); // Functie de initializarea a modulului periferic
-                     ^
-./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
-void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
-                                                                                         ^
-main.c(4): warning: In file included from...
-./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
-void UART0_IRQHandler(void);
-                            ^
-main.c(19): warning: 'return' will never be executed [-Wunreachable-code-return]
-        return 0;
-               ^
-5 warnings generated.
-compiling main.c...
+assembling startup_MKL25Z4.s...
 Sequencer.c(1): warning: In file included from...
 ./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
 void led_init();
@@ -66,7 +46,43 @@ void led_init(){
 3 warnings generated.
 compiling Sequencer.c...
 compiling system_MKL25Z4.c...
-assembling startup_MKL25Z4.s...
+uart.c(1): warning: In file included from...
+./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
+void UART0_IRQHandler(void);
+                            ^
+uart.c(13): warning: // comments are not allowed in this language [-Wcomment]
+        //NU SE SETEAZA OSR IN C4
+        ^
+2 warnings generated.
+compiling uart.c...
+main.c(2): warning: In file included from...
+./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void led_init();
+             ^
+              void
+main.c(3): warning: In file included from...
+./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void PIT_Init(void); // Functie de initializarea a modulului periferic
+                     ^
+./pit.h(4): warning: no newline at end of file [-Wnewline-eof]
+void PIT_IRQHandler(void); // Functia de tratarea a intreruperilor pentru perifericul PIT
+                                                                                         ^
+main.c(4): warning: In file included from...
+./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
+void UART0_IRQHandler(void);
+                            ^
+main.c(5): warning: In file included from...
+./adc.h(11): warning: // comments are not allowed in this language [-Wcomment]
+//void ADC1_Func(void);
+^
+./adc.h(11): warning: no newline at end of file [-Wnewline-eof]
+//void ADC1_Func(void);
+                       ^
+main.c(18): warning: 'return' will never be executed [-Wunreachable-code-return]
+        return 0;
+               ^
+7 warnings generated.
+compiling main.c...
 pit.c(1): warning: In file included from...
 ./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void PIT_Init(void); // Functie de initializarea a modulului periferic
@@ -79,6 +95,13 @@ pit.c(2): warning: In file included from...
 void led_init();
              ^
               void
+pit.c(3): warning: In file included from...
+./adc.h(11): warning: // comments are not allowed in this language [-Wcomment]
+//void ADC1_Func(void);
+^
+./adc.h(11): warning: no newline at end of file [-Wnewline-eof]
+//void ADC1_Func(void);
+                       ^
 pit.c(4): warning: In file included from...
 ./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
 void UART0_IRQHandler(void);
@@ -89,51 +112,55 @@ pit.c(7): warning: // comments are not allowed in this language [-Wcomment]
 pit.c(61): warning: no newline at end of file [-Wnewline-eof]
 }
  ^
-6 warnings generated.
+8 warnings generated.
 compiling pit.c...
-uart.c(1): warning: In file included from...
-./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
-void UART0_IRQHandler(void);
-                            ^
-uart.c(65): warning: // comments are not allowed in this language [-Wcomment]
-          //Do something with the data
-          ^
-uart.c(53): warning: unused variable 'vector' [-Wunused-variable]
-        static uint8_t vector[128];
+adc.c(1): warning: In file included from...
+./adc.h(11): warning: // comments are not allowed in this language [-Wcomment]
+//void ADC1_Func(void);
+^
+./adc.h(11): warning: no newline at end of file [-Wnewline-eof]
+//void ADC1_Func(void);
                        ^
-3 warnings generated.
-compiling uart.c...
 adc.c(2): warning: In file included from...
 ./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
 void UART0_IRQHandler(void);
                             ^
 adc.c(4): warning: // comments are not allowed in this language [-Wcomment]
-#define ADC_CHANNEL (8) // PORT B PIN 0
-                        ^
-adc.c(6): warning: no previous prototype for function 'find_Interval' [-Wmissing-prototypes]
+#define ADC_CHANNEL1 (8) // PORT B PIN 0
+                         ^
+adc.c(8): warning: no previous prototype for function 'find_Interval' [-Wmissing-prototypes]
 uint8_t find_Interval(float angle)
         ^
-adc.c(6): note: declare 'static' if the function is not intended to be used outside of this translation unit
+adc.c(8): note: declare 'static' if the function is not intended to be used outside of this translation unit
 uint8_t find_Interval(float angle)
 ^
 static 
-adc.c(89): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+adc.c(83): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
         uint16_t calibration_var = 0x0000;
                  ^
-adc.c(153): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-        analog_input=(analog_input)<<6;
-                    ~~~~~~~~~~~~~~~^~~
-adc.c(154): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-        float measured_voltage = (analog_input * 180.0f) / 65535;
-              ^
-adc.c(157): warning: unused variable 'parte_zecimala' [-Wunused-variable]
-        uint8_t parte_zecimala = (uint8_t) measured_voltage;
+adc.c(161): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+        input_rotation=(input_rotation)<<6;
+                      ~~~~~~~~~~~~~~~~~^~~
+adc.c(162): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+        input_temperature=(input_temperature)<<6;
+                         ~~~~~~~~~~~~~~~~~~~~^~~
+adc.c(167): warning: implicit conversion loses integer precision: 'int' to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+        uint8_t secondbyte=((input_rotation<<8)>>8);
+                ~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~^~~
+adc.c(174): warning: implicit conversion loses integer precision: 'int' to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+        secondbyte=((input_temperature<<8)>>8);
+                  ~ ~~~~~~~~~~~~~~~~~~~~~~^~~
+adc.c(166): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint8_t firstbyte=input_rotation>>8;
                 ^
-7 warnings generated.
+adc.c(153): warning: unused variable 'interval' [-Wunused-variable]
+        uint8_t interval=find_Interval((float)input_rotation);
+                ^
+12 warnings generated.
 compiling adc.c...
 linking...
-Program Size: Code=3360 RO-data=288 RW-data=4 ZI-data=360  
-".\Objects\proiect.axf" - 0 Error(s), 24 Warning(s).
+Program Size: Code=2972 RO-data=224 RW-data=4 ZI-data=360  
+".\Objects\proiect.axf" - 0 Error(s), 32 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -160,9 +187,9 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:2.5.0
-      Source file:   Device/Source/ARM/startup_MKL25Z4.s
-      Source file:   Device/Source/system_MKL25Z4.c
       Include file:  Device/Source/system_MKL25Z4.h
+      Source file:   Device/Source/system_MKL25Z4.c
+      Source file:   Device/Source/ARM/startup_MKL25Z4.s
 Build Time Elapsed:  00:00:00
 </pre>
 </body>
