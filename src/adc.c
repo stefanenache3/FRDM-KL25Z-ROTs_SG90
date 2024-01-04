@@ -1,7 +1,9 @@
 #include "adc.h"
 #include "uart.h"
 
-#define ADC_CHANNEL (8) // PORT B PIN 0
+#define ADC_CHANNEL1 (8) // PORT B PIN 0
+
+#define ADC_CHANNEL2 (9) // PORT B PIN 0
 
 uint8_t find_Interval(float angle)
 {
@@ -27,8 +29,6 @@ void ADC0_Init() {
 	// Functia de calibrare
 	ADC0_Calibrate();
 	
-	
-	
 	ADC0->CFG1 = 0x00;
 
 	// Selectarea modului de conversie pe 10 biti single-ended --> MODE
@@ -36,25 +36,19 @@ void ADC0_Init() {
 	// Selectarea ratei de divizare folosit de periferic pentru generarea ceasului intern --> ADIV
 	// Set ADC clock frequency fADCK less than or equal to 4 MHz (PG. 494)
 	ADC0->CFG1 |= ADC_CFG1_MODE(2) |
-							 ADC_CFG1_ADICLK(0) |
-							 ADC_CFG1_ADIV(2);
+							 ADC_CFG1_ADICLK(1) |
+							 ADC_CFG1_ADIV(3);
 	
 	// DIFF = 0 --> Conversii single-ended (PG. 464)
 	ADC0->SC1[0] = 0x00;
 	ADC0->SC3 = 0x00;
 
-	// Selectarea modului de conversii continue, 
-	// pentru a-l putea folosi in tandem cu mecanismul de intreruperi
-	ADC0->SC3 |= ADC_SC3_ADCO_MASK;
 	
-	// Activarea subsistemului de conversie prin aproximari succesive pe un anumit canal (PG.464)
-	ADC0->SC1[0] |= ADC_SC1_ADCH(ADC_CHANNEL);
-	// Enables conversion complete interrupts
 	ADC0->SC1[0] |= ADC_SC1_AIEN_MASK;
 	
-	//NVIC_ClearPendingIRQ(ADC0_IRQn);
-	//NVIC_SetPriority(ADC0_IRQn,5);
-	//NVIC_EnableIRQ(ADC0_IRQn);	
+	ADC0->SC1[0] &= ~ADC_SC1_DIFF_MASK;
+	ADC0->SC3 &= ~ADC_SC3_AVGE_MASK;
+	
 }
 
 int ADC0_Calibrate() {
@@ -127,10 +121,10 @@ int ADC0_Calibrate() {
 	return (0);
 }
 
-uint16_t ADC0_Read(){
+uint16_t ADC0_Read(uint8_t ch){
 	
 	// A conversion is initiated following a write to SC1A, with SC1n[ADCH] not all 1's (PG. 485)
-	ADC0->SC1[0] |= ADC_SC1_ADCH(ADC_CHANNEL);
+	ADC0->SC1[0] = ADC_SC1_ADCH(ch);
 	
 	// ADACT is set when a conversion is initiated
 	// and cleared when a conversion is completed or aborted.
@@ -144,16 +138,19 @@ uint16_t ADC0_Read(){
 	// the last of the selected number of conversions is completed (PG. 486)
 	while(!(ADC0->SC1[0] & ADC_SC1_COCO_MASK));
 	
+	ADC0->SC1[0] |= ADC_SC1_ADCH(31);
+	
 	return (uint16_t) ADC0->R[0];
 	
 }
 
 void ADC0_Func(){
 	
-	uint16_t analog_input = ADC0_Read();
+	uint16_t input_rotation = ADC0_Read(ADC_CHANNEL1);
+	uint16_t  input_temperature=ADC0_Read(ADC_CHANNEL2);
 	//Apeleaza aici functia pentru a intoarce motorul!
 	
-	uint8_t interval=find_Interval((float)analog_input);
+	uint8_t interval=find_Interval((float)input_rotation);
 	
 	
 	//!
@@ -161,29 +158,23 @@ void ADC0_Func(){
 	//Shiftare la stanga cu 6 pentru a aduce la 16 biti
 	//Rezultat pe 10 biti SE10
 	
-	analog_input=(analog_input)<<6;
-	float measured_voltage = (analog_input * 180.0f) / 65535;
+	input_rotation=(input_rotation)<<6;
+	input_temperature=(input_temperature)<<6;
 	
 	
-	uint8_t parte_zecimala = (uint8_t) measured_voltage;
-	uint8_t sute=(uint8_t)measured_voltage/100;
-	uint8_t zeci=(uint8_t)measured_voltage/10%10;
-	uint8_t unitati=(uint8_t)measured_voltage%10;
 	
-	uint8_t parte_fractionara1 = ((uint8_t)(measured_voltage * 10)) % 10;
-	uint8_t parte_fractionara2 = ((uint8_t)(measured_voltage * 100)) % 10;
-	uint8_t parte_fractionara3 = ((uint8_t)(measured_voltage * 1000)) % 10;
+	uint8_t firstbyte=input_rotation>>8;
+	uint8_t secondbyte=((input_rotation<<8)>>8);
+	UART0_Transmit(0x10);
+	UART0_Transmit(0x99);
+	UART0_Transmit(firstbyte);
+	UART0_Transmit(secondbyte);
 	
-	if(sute)
-	UART0_Transmit(sute + 0x30);
-	if(zeci)
-	UART0_Transmit(zeci + 0x30);
-	if(unitati)
-	UART0_Transmit(unitati + 0x30);
-	UART0_Transmit('.');
-	UART0_Transmit(parte_fractionara1 + 0x30);
-	UART0_Transmit(parte_fractionara2 + 0x30);
-	UART0_Transmit(parte_fractionara3 + 0x30);
-	UART0_Transmit(0x0A);
-	UART0_Transmit(0x0D);
+	firstbyte=input_temperature>>8;
+	secondbyte=((input_temperature<<8)>>8);
+	UART0_Transmit(0x22);
+	UART0_Transmit(0x88);
+	UART0_Transmit(firstbyte);
+	UART0_Transmit(secondbyte);
+
 }

@@ -20,7 +20,7 @@ void PIT_Init(void) {
 	
 	
 	// Setarea valoarea numaratorului de pe canalul 1 la o perioada de 10ms
-	PIT->CHANNEL[1].LDVAL = 19199;
+	PIT->CHANNEL[1].LDVAL = 191999;
 	
 	// Activara întreruperilor pe canalul 1
 	PIT->CHANNEL[1].TCTRL |= PIT_TCTRL_TIE_MASK;
@@ -31,9 +31,9 @@ void PIT_Init(void) {
 	
 	// Activarea întreruperii mascabile si setarea prioritatiis
 	NVIC_ClearPendingIRQ(PIT_IRQn);
-	NVIC_SetPriority(PIT_IRQn,5);
+	
 	NVIC_EnableIRQ(PIT_IRQn);
-	__enable_irq();
+	
 }
 void PIT_IRQHandler(void) {
 	static uint8_t led_turn=0;
