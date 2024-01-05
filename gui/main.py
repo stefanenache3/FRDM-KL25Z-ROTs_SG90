@@ -5,7 +5,7 @@ from PySide6.QtGui import QScreen
 app = QApplication([])
 window = MainWindow()
 
-window.setGeometry(0, 0, 800, 600)
+window.setGeometry(0, 0, 8000, 600)
 screen_geometry = QScreen.availableGeometry(QApplication.primaryScreen())
 screenX = (screen_geometry.width() - window.width()) / 2
 screenY = (screen_geometry.height() - window.height()) / 2

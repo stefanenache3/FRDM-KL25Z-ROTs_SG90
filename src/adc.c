@@ -1,6 +1,6 @@
 #include "adc.h"
 #include "uart.h"
-
+#include "Servo.h"
 #define ADC_CHANNEL1 (8) // PORT B PIN 0
 
 #define ADC_CHANNEL2 (9) // PORT B PIN 0
@@ -151,7 +151,7 @@ void ADC0_Func(){
 	//Apeleaza aici functia pentru a intoarce motorul!
 	
 	uint8_t interval=find_Interval((float)input_rotation);
-	
+	setPG90_angle(interval*90);
 	
 	//!
 	

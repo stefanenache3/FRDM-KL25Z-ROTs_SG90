@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.37.0.0
 Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Luca Mitran, Academia Tehnica Militara , LIC=----
+License Information: Stefan Enache, Military Technical Academy, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.37.0.0
@@ -21,40 +21,12 @@ Target DLL:      CMSIS_AGDI.dll V1.33.12.0
 Dialog DLL:      TARMCM1.DLL V1.14.6.0
  
 <h2>Project:</h2>
-C:\Users\Radu\Desktop\ATM\AN4eu\MP Proiect\FRDM-KL25Z-ROTs_SG90\v2\src\proiect.uvprojx
-Project File Date:  01/04/2024
+C:\ATM\ANUL_4\Microcontrolere\Proiect_git\src\proiect.uvprojx
+Project File Date:  01/05/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-assembling startup_MKL25Z4.s...
-Sequencer.c(1): warning: In file included from...
-./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
-void led_init();
-             ^
-              void
-Sequencer.c(3): warning: no previous prototype for function 'led_init' [-Wmissing-prototypes]
-void led_init(){
-     ^
-./Sequencer.h(8): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
-void led_init();
-     ^
-              void
-Sequencer.c(3): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-void led_init(){
-             ^
-3 warnings generated.
-compiling Sequencer.c...
-compiling system_MKL25Z4.c...
-uart.c(1): warning: In file included from...
-./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
-void UART0_IRQHandler(void);
-                            ^
-uart.c(13): warning: // comments are not allowed in this language [-Wcomment]
-        //NU SE SETEAZA OSR IN C4
-        ^
-2 warnings generated.
-compiling uart.c...
 main.c(2): warning: In file included from...
 ./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
 void led_init();
@@ -83,6 +55,123 @@ main.c(18): warning: 'return' will never be executed [-Wunreachable-code-return]
                ^
 7 warnings generated.
 compiling main.c...
+Sequencer.c(1): warning: In file included from...
+./Sequencer.h(8): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void led_init();
+             ^
+              void
+Sequencer.c(3): warning: no previous prototype for function 'led_init' [-Wmissing-prototypes]
+void led_init(){
+     ^
+./Sequencer.h(8): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
+void led_init();
+     ^
+              void
+Sequencer.c(3): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
+void led_init(){
+             ^
+3 warnings generated.
+compiling Sequencer.c...
+compiling system_MKL25Z4.c...
+Servo.c(1): warning: In file included from...
+./Servo.h(2): warning: // comments are not allowed in this language [-Wcomment]
+#define PG90_PWM_PERIOD         (20)            //20ms
+                                                ^
+./Servo.h(12): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void init_tpm2();
+              ^
+               void
+./Servo.h(13): warning: no newline at end of file [-Wnewline-eof]
+void setPG90_angle(uint32_t angle);
+                                   ^
+Servo.c(5): warning: // comments are not allowed in this language [-Wcomment]
+        //PTA1: alternativa de functionare pentru perifericul TPM: TPM2_CH0
+        ^
+Servo.c(3): warning: no previous prototype for function 'init_tpm2' [-Wmissing-prototypes]
+void init_tpm2(){
+     ^
+./Servo.h(12): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
+void init_tpm2();
+     ^
+               void
+Servo.c(3): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
+void init_tpm2(){
+              ^
+Servo.c(32): warning: implicit conversion from 'double' to 'uint32_t' (aka 'unsigned int') changes value from 0.5 to 0 [-Wliteral-conversion]
+                dutyCycle=DUTY_CYCLE_0;
+                         ~^~~~~~~~~~~~
+./Servo.h(6): note: expanded from macro 'DUTY_CYCLE_0'
+#define DUTY_CYCLE_0                    (0.5)
+                                         ^~~
+Servo.c(34): warning: implicit conversion from 'double' to 'uint32_t' (aka 'unsigned int') changes value from 1.5 to 1 [-Wliteral-conversion]
+                dutyCycle=DUTY_CYCLE_90;
+                         ~^~~~~~~~~~~~~
+./Servo.h(7): note: expanded from macro 'DUTY_CYCLE_90'
+#define DUTY_CYCLE_90                   (1.5)
+                                         ^~~
+Servo.c(36): warning: implicit conversion from 'double' to 'uint32_t' (aka 'unsigned int') changes value from 2.5 to 2 [-Wliteral-conversion]
+                dutyCycle=DUTY_CYCLE_180;
+                         ~^~~~~~~~~~~~~~
+./Servo.h(8): note: expanded from macro 'DUTY_CYCLE_180'
+#define DUTY_CYCLE_180          (2.5)             //2ms
+                                 ^~~
+Servo.c(40): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+10 warnings generated.
+compiling Servo.c...
+adc.c(1): warning: In file included from...
+./adc.h(11): warning: // comments are not allowed in this language [-Wcomment]
+//void ADC1_Func(void);
+^
+./adc.h(11): warning: no newline at end of file [-Wnewline-eof]
+//void ADC1_Func(void);
+                       ^
+adc.c(2): warning: In file included from...
+./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
+void UART0_IRQHandler(void);
+                            ^
+adc.c(3): warning: In file included from...
+./Servo.h(2): warning: // comments are not allowed in this language [-Wcomment]
+#define PG90_PWM_PERIOD         (20)            //20ms
+                                                ^
+./Servo.h(12): warning: this function declaration is not a prototype [-Wstrict-prototypes]
+void init_tpm2();
+              ^
+               void
+./Servo.h(13): warning: no newline at end of file [-Wnewline-eof]
+void setPG90_angle(uint32_t angle);
+                                   ^
+adc.c(4): warning: // comments are not allowed in this language [-Wcomment]
+#define ADC_CHANNEL1 (8) // PORT B PIN 0
+                         ^
+adc.c(8): warning: no previous prototype for function 'find_Interval' [-Wmissing-prototypes]
+uint8_t find_Interval(float angle)
+        ^
+adc.c(8): note: declare 'static' if the function is not intended to be used outside of this translation unit
+uint8_t find_Interval(float angle)
+^
+static 
+adc.c(83): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint16_t calibration_var = 0x0000;
+                 ^
+adc.c(161): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+        input_rotation=(input_rotation)<<6;
+                      ~~~~~~~~~~~~~~~~~^~~
+adc.c(162): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+        input_temperature=(input_temperature)<<6;
+                         ~~~~~~~~~~~~~~~~~~~~^~~
+adc.c(167): warning: implicit conversion loses integer precision: 'int' to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+        uint8_t secondbyte=((input_rotation<<8)>>8);
+                ~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~^~~
+adc.c(174): warning: implicit conversion loses integer precision: 'int' to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+        secondbyte=((input_temperature<<8)>>8);
+                  ~ ~~~~~~~~~~~~~~~~~~~~~~^~~
+adc.c(166): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint8_t firstbyte=input_rotation>>8;
+                ^
+14 warnings generated.
+compiling adc.c...
 pit.c(1): warning: In file included from...
 ./pit.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void PIT_Init(void); // Functie de initializarea a modulului periferic
@@ -114,53 +203,19 @@ pit.c(61): warning: no newline at end of file [-Wnewline-eof]
  ^
 8 warnings generated.
 compiling pit.c...
-adc.c(1): warning: In file included from...
-./adc.h(11): warning: // comments are not allowed in this language [-Wcomment]
-//void ADC1_Func(void);
-^
-./adc.h(11): warning: no newline at end of file [-Wnewline-eof]
-//void ADC1_Func(void);
-                       ^
-adc.c(2): warning: In file included from...
+uart.c(1): warning: In file included from...
 ./uart.h(8): warning: no newline at end of file [-Wnewline-eof]
 void UART0_IRQHandler(void);
                             ^
-adc.c(4): warning: // comments are not allowed in this language [-Wcomment]
-#define ADC_CHANNEL1 (8) // PORT B PIN 0
-                         ^
-adc.c(8): warning: no previous prototype for function 'find_Interval' [-Wmissing-prototypes]
-uint8_t find_Interval(float angle)
+uart.c(13): warning: // comments are not allowed in this language [-Wcomment]
+        //NU SE SETEAZA OSR IN C4
         ^
-adc.c(8): note: declare 'static' if the function is not intended to be used outside of this translation unit
-uint8_t find_Interval(float angle)
-^
-static 
-adc.c(83): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-        uint16_t calibration_var = 0x0000;
-                 ^
-adc.c(161): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-        input_rotation=(input_rotation)<<6;
-                      ~~~~~~~~~~~~~~~~~^~~
-adc.c(162): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-        input_temperature=(input_temperature)<<6;
-                         ~~~~~~~~~~~~~~~~~~~~^~~
-adc.c(167): warning: implicit conversion loses integer precision: 'int' to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-        uint8_t secondbyte=((input_rotation<<8)>>8);
-                ~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~^~~
-adc.c(174): warning: implicit conversion loses integer precision: 'int' to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-        secondbyte=((input_temperature<<8)>>8);
-                  ~ ~~~~~~~~~~~~~~~~~~~~~~^~~
-adc.c(166): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-        uint8_t firstbyte=input_rotation>>8;
-                ^
-adc.c(153): warning: unused variable 'interval' [-Wunused-variable]
-        uint8_t interval=find_Interval((float)input_rotation);
-                ^
-12 warnings generated.
-compiling adc.c...
+2 warnings generated.
+compiling uart.c...
+assembling startup_MKL25Z4.s...
 linking...
-Program Size: Code=2972 RO-data=224 RW-data=4 ZI-data=360  
-".\Objects\proiect.axf" - 0 Error(s), 32 Warning(s).
+Program Size: Code=3040 RO-data=224 RW-data=4 ZI-data=360  
+".\Objects\proiect.axf" - 0 Error(s), 44 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -171,26 +226,26 @@ Package Vendor: ARM
    * Component: CORE Version: 5.6.0
 
 Package Vendor: Keil
-                https://www.keil.com/pack/Keil.Kinetis_KLxx_DFP.1.15.1.pack
-                Keil.Kinetis_KLxx_DFP.1.15.1
+                http://www.keil.com/pack/Keil.Kinetis_KLxx_DFP.1.15.0.pack
+                Keil.Kinetis_KLxx_DFP.1.15.0
                 NXP Kinetis KLxx Series Device Support and Examples
    * Component: Startup Version: 2.5.0
 
 <h2>Collection of Component include folders:</h2>
   ./RTE/Device/MKL25Z128xxx4
   ./RTE/_Target_1
-  C:/Users/Radu/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
-  C:/Users/Radu/AppData/Local/Arm/Packs/Keil/Kinetis_KLxx_DFP/1.15.1/Device/Include
+  C:/Users/stefa/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+  C:/Users/stefa/AppData/Local/Arm/Packs/Keil/Kinetis_KLxx_DFP/1.15.0/Device/Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:2.5.0
+      Source file:   Device/Source/ARM/startup_MKL25Z4.s
       Include file:  Device/Source/system_MKL25Z4.h
       Source file:   Device/Source/system_MKL25Z4.c
-      Source file:   Device/Source/ARM/startup_MKL25Z4.s
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
