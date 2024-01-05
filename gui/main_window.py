@@ -46,8 +46,10 @@ class MainWindow(QMainWindow):
         control_panel_box = QGroupBox("Control Panel")
         control_panel_box.setFont(bold_font)
 
-        button1 = QPushButton("Control 1")
-        button2 = QPushButton("Control 2")
+        button1 = QPushButton("Reverse")
+        button1.setIcon(QIcon('reverse.png'))
+        button1.clicked.connect(self.reverse_leds)
+        #button2 = QPushButton("Control 2")
         button3 = QPushButton("Send")
         button3.clicked.connect(self.send_input)
         self.line_edit = QLineEdit()
@@ -56,7 +58,7 @@ class MainWindow(QMainWindow):
         control_panel_box_layout = QVBoxLayout()
         control_panel_box_layout.setSpacing(5)
         control_panel_box_layout.addWidget(button1,1)
-        control_panel_box_layout.addWidget(button2,1)
+        #control_panel_box_layout.addWidget(button2,1)
 
         control_panel_box_layout.addStretch()
         control_panel_box_layout.addWidget(line_edit_label)
@@ -69,9 +71,17 @@ class MainWindow(QMainWindow):
         tertiary_layout.addWidget(control_panel_box,5)
 
         self.plot_widget = pg.PlotWidget()
-        
+        self.plot_widget.plotItem.setTitle('Senzor de rotatie')
+        #widget senzor temperatura
+        self.plot_widget_2 = pg.PlotWidget()
+        self.plot_widget_2.plotItem.setTitle('Senzor de temperatura')
+        #Am creat un layout de grafice pe care sa il includem in secondary_layout
+        plots_layout = QVBoxLayout()
+        plots_layout.addWidget(self.plot_widget, 1)
+        plots_layout.addWidget(self.plot_widget_2, 1)
 
-        secondary_layout.addWidget(self.plot_widget, 3)
+
+        secondary_layout.addLayout(plots_layout, 3)
         secondary_layout.addLayout(tertiary_layout, 1)
 
         primary_layout.addLayout(secondary_layout, 4)
@@ -101,6 +111,11 @@ class MainWindow(QMainWindow):
         self.pen = pg.mkPen(color=(255, 0, 0))
         self.data_line =  self.plot_widget.plot(self.x_rotation, self.y_rotation, pen=self.pen)
 
+
+        self.pen2 = pg.mkPen(color=(0, 0, 255))
+        self.x_temperature=list(range(50))
+        self.y_temperature=list(range(50))
+        self.plot_widget_2.plot(self.x_temperature,self.y_temperature,pen=self.pen2)
     
         self.timer = QTimer()
         self.timer.setInterval(50)
@@ -108,7 +123,17 @@ class MainWindow(QMainWindow):
         self.timer.start()
         
     
+        ####init serial
+        self.srl=serial.Serial('COM11', 38400)
+        self.last='N'
 
+    def reverse_leds(self):
+        if self.last=='N':
+            self.last='R'
+        else:
+            self.last='N'
+
+        self.srl.write(self.last.encode())
     def send_input(self):
         input = self.line_edit.text()
         self.line_edit.clear()
