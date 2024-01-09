@@ -19,8 +19,8 @@ void PIT_Init(void) {
 	PIT->CHANNEL[0].TCTRL |= PIT_TCTRL_TEN_MASK;
 	
 	
-	// Setarea valoarea numaratorului de pe canalul 1 la o perioada de 10ms
-	PIT->CHANNEL[1].LDVAL = 191999;
+	// Setarea valoarea numaratorului de pe canalul 1 la o perioada de 30ms
+	PIT->CHANNEL[1].LDVAL = 191999*3;
 	
 	// Activara întreruperilor pe canalul 1
 	PIT->CHANNEL[1].TCTRL |= PIT_TCTRL_TIE_MASK;
