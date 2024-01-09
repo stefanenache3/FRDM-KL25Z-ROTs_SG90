@@ -147,11 +147,13 @@ uint16_t ADC0_Read(uint8_t ch){
 void ADC0_Func(){
 	
 	uint16_t input_rotation = ADC0_Read(ADC_CHANNEL1);
-	uint16_t  input_temperature=ADC0_Read(ADC_CHANNEL2);
+	uint16_t  input_soc = ADC0_Read(ADC_CHANNEL2);
 	//Apeleaza aici functia pentru a intoarce motorul!
 	
-	uint8_t interval=find_Interval((float)input_rotation);
+	float rotation=input_rotation*180.0f/1024;
+	uint8_t interval=find_Interval((float)rotation);
 	setPG90_angle(interval*90);
+	
 	
 	//!
 	
@@ -159,7 +161,8 @@ void ADC0_Func(){
 	//Rezultat pe 10 biti SE10
 	
 	input_rotation=(input_rotation)<<6;
-	input_temperature=(input_temperature)<<6;
+
+	input_soc=(input_soc)<<6;
 	
 	
 	
@@ -170,8 +173,8 @@ void ADC0_Func(){
 	UART0_Transmit(firstbyte);
 	UART0_Transmit(secondbyte);
 	
-	firstbyte=input_temperature>>8;
-	secondbyte=((input_temperature<<8)>>8);
+	firstbyte=input_soc>>8;
+	secondbyte=((input_soc<<8)>>8);
 	UART0_Transmit(0x22);
 	UART0_Transmit(0x88);
 	UART0_Transmit(firstbyte);

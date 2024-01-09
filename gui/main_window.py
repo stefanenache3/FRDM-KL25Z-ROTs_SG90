@@ -2,19 +2,14 @@ from PySide6.QtWidgets import QMainWindow, QHBoxLayout, QVBoxLayout, QWidget, QG
 from PySide6.QtGui import QIcon, QPalette, QColor, QFont
 from PySide6.QtCore import Qt
 from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QMessageBox
+from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
+from PySide6.QtCore import QUrl
 from typing import List
 import pyqtgraph as pg
 import random as rand
 import serial
-def xor_byte_strings(bytes_str1, bytes_str2):
-        # Ensure both input strings are of equal length
-        if len(bytes_str1) != len(bytes_str2):
-         raise ValueError("Input byte strings must have the same length")
 
-        # Perform XOR byte by byte
-        result = bytes([a ^ b for a, b in zip(bytes_str1, bytes_str2)])
-
-        return result
 class MainWindow(QMainWindow):
     promotie: str = "2023-2024"
     team: List = [
@@ -49,7 +44,7 @@ class MainWindow(QMainWindow):
         button1 = QPushButton("Reverse")
         button1.setIcon(QIcon('reverse.png'))
         button1.clicked.connect(self.reverse_leds)
-        #button2 = QPushButton("Control 2")
+       
         button3 = QPushButton("Send")
         button3.clicked.connect(self.send_input)
         self.line_edit = QLineEdit()
@@ -58,7 +53,7 @@ class MainWindow(QMainWindow):
         control_panel_box_layout = QVBoxLayout()
         control_panel_box_layout.setSpacing(5)
         control_panel_box_layout.addWidget(button1,1)
-        #control_panel_box_layout.addWidget(button2,1)
+        
 
         control_panel_box_layout.addStretch()
         control_panel_box_layout.addWidget(line_edit_label)
@@ -104,29 +99,46 @@ class MainWindow(QMainWindow):
         
        
        
-        self.x_rotation = list(range(100))  # 100 time points
-        self.y_rotation = list(range(100))  # 100 data points
+        self.x_rotation = list(0 for _ in range(100)) 
+        self.y_rotation = list(1000 for _ in range(100))  
 
-
-        self.pen = pg.mkPen(color=(255, 0, 0))
-        self.data_line =  self.plot_widget.plot(self.x_rotation, self.y_rotation, pen=self.pen)
-
+        self.plot_widget.setYRange(0, 200, padding=0)
+        self.penR = pg.mkPen(color=(255, 0, 0))
+        self.brushR = pg.mkBrush(QColor(255, 0, 0))
+        self.penG = pg.mkPen(color=(255, 255, 0))
+        self.brushG = pg.mkBrush(QColor(255, 255, 0))
+        self.penB = pg.mkPen(color=(0, 0, 255))
+        self.brushB = pg.mkBrush(QColor(0, 0, 255))
+        self.data_lineR =  self.plot_widget.scatterPlot(self.x_rotation, self.y_rotation, pen=self.penR,brush=self.brushR)
+        self.data_lineG =  self.plot_widget.scatterPlot(self.x_rotation, self.y_rotation, pen=self.penG,brush=self.brushG)
+        self.data_lineB =  self.plot_widget.scatterPlot(self.x_rotation, self.y_rotation, pen=self.penB,brush=self.brushB)
+      
+       
 
         self.pen2 = pg.mkPen(color=(0, 0, 255))
-        self.x_temperature=list(range(50))
-        self.y_temperature=list(range(50))
-        self.plot_widget_2.plot(self.x_temperature,self.y_temperature,pen=self.pen2)
-    
+        self.x_temperature=list(0 for _ in range(100))
+        self.y_temperature=list(1000 for _ in range(100))
+        self.data_line2 =  self.plot_widget_2.plot(self.x_temperature, self.y_temperature, pen=self.pen2)
+        self.plot_widget_2.setYRange(0, 80, padding=0)
+
         self.timer = QTimer()
         self.timer.setInterval(50)
         self.timer.timeout.connect(self.update_plot_data)
         self.timer.start()
         
     
-        ####init serial
         self.srl=serial.Serial('COM11', 38400)
         self.last='N'
+    def alert_temperature(self):
+        filename = "alerta.mp3"
+        player = QMediaPlayer()
+        audio_output = QAudioOutput()
+        player.setAudioOutput(audio_output)
+        player.setSource(QUrl.fromLocalFile(filename))
+        audio_output.setVolume(50)
+        player.play()
 
+        QMessageBox.warning(self, 'Alerta Cutremur', 'Activitate seismica, ramaneti calm')
     def reverse_leds(self):
         if self.last=='N':
             self.last='R'
@@ -140,16 +152,9 @@ class MainWindow(QMainWindow):
         self.text_edit.insertPlainText(f"INPUT: {input}\n")
         
     def update_plot_data(self):
-         ser = serial.Serial('COM11', 38400)
-         data = ser.read(24)
+        
+         data = self.srl.read(48)
 
-        #  print(data)
-        #  result=data.split(b'\x10\x10')
-        #  if data[1]!=b'\x10':
-        #      result.pop(0)
-        #  if data[len(data)-2]!=b'\x10':
-        #      result.pop(len(result)-1)
-        #  print (result)
          result_rotation=[]
          for i in range(0,len(data)-1):
             if data[i]==0x10 and data[i+1]==0x99:
@@ -170,8 +175,7 @@ class MainWindow(QMainWindow):
                     result_temp.append(byte)
                 i+=4
                 continue
-         print(data)
-         print(result_rotation)
+        
          self.x_rotation = self.x_rotation[len(result_rotation):]
          for i in result_rotation:
             self.x_rotation.append(self.x_rotation[-1] + 1)
@@ -182,11 +186,47 @@ class MainWindow(QMainWindow):
             altered=altered/65535
             altered=altered*180
             self.y_rotation.append( altered)
-         #random_color = QColor(rand.randint(0, 255), rand.randint(0, 255), rand.randint(0, 255))
+            
+        
+         self.x_temperature = self.x_temperature[len(result_temp):]
+         
+         for i in result_temp:
+            self.x_temperature.append(self.x_temperature[-1] + 1)
 
-         #self.pen = pg.mkPen(color=random_color)
-
-         # Set the new pen to the data line
-         #self.data_line.setPen(self.pen)
-
-         self.data_line.setData(self.x_rotation, self.y_rotation)
+         self.y_temperature = self.y_temperature[len(result_temp):]
+         for i in result_temp:
+           
+            altered= int.from_bytes(i,'big')
+            altered=altered/1024
+            altered=altered
+            if altered>50:
+                 self.alert_temperature()
+            self.y_temperature.append( altered)
+         
+         xr=[]
+         yr=[]
+         xg=[]
+         yg=[]
+         xb=[]
+         yb=[]
+         for x,y in zip(self.x_rotation,self.y_rotation):
+             if y<60:
+                 xr.append(x)
+                 yr.append(y)
+                 continue
+             if y<120:
+                 xg.append(x)
+                 yg.append(y)
+                 continue
+             if y<180:
+                 xb.append(x)
+                 yb.append(y)
+                 continue
+         
+        
+       
+         self.data_lineR.setData(xr, yr)
+         self.data_lineG.setData(xg, yg)
+         self.data_lineB.setData(xb, yb)
+        
+         self.data_line2.setData(self.x_temperature, self.y_temperature)
