@@ -9,7 +9,7 @@ from typing import List
 import pyqtgraph as pg
 import random as rand
 import serial
-
+from Alerta import SeismicAlert
 class MainWindow(QMainWindow):
     promotie: str = "2023-2024"
     team: List = [
@@ -127,18 +127,35 @@ class MainWindow(QMainWindow):
         self.timer.start()
         
     
-        self.srl=serial.Serial('COM11', 38400)
+        self.srl=serial.Serial('COM9', 38400)
         self.last='N'
-    def alert_temperature(self):
-        filename = "alerta.mp3"
-        player = QMediaPlayer()
-        audio_output = QAudioOutput()
-        player.setAudioOutput(audio_output)
-        player.setSource(QUrl.fromLocalFile(filename))
-        audio_output.setVolume(50)
-        player.play()
 
+        self.alert_thread=SeismicAlert()
+        self.alert_thread.seismic_alert_signal.connect(self.alert_temperature)
+
+        self.player=QMediaPlayer()
+        self.audio_output = QAudioOutput()
+        self.player.setAudioOutput(self.audio_output)
+
+
+        self.is_alert=False
+        self.alert_timer = QTimer(self)
+        self.alert_timer.setInterval(5000)
+        self.alert_timer.setSingleShot(True)
+        self.alert_timer.timeout.connect(self.stop_alert)
+
+
+    def alert_temperature(self):
+        self.is_alert = True
+        self.player.setSource(QUrl.fromLocalFile("ro_alert.mp3"))
+        self.audio_output.setVolume(50)
+        self.player.play()
+        self.alert_timer.start()
         QMessageBox.warning(self, 'Alerta Cutremur', 'Activitate seismica, ramaneti calm')
+
+    def stop_alert(self):
+        self.player.stop()
+        self.is_alert=False
     def reverse_leds(self):
         if self.last=='N':
             self.last='R'
@@ -150,6 +167,7 @@ class MainWindow(QMainWindow):
         input = self.line_edit.text()
         self.line_edit.clear()
         self.text_edit.insertPlainText(f"INPUT: {input}\n")
+
         
     def update_plot_data(self):
         
@@ -200,7 +218,8 @@ class MainWindow(QMainWindow):
             altered=altered/1024
             altered=altered
             if altered>50:
-                 self.alert_temperature()
+                if self.is_alert==False:
+                    self.alert_thread.start()
             self.y_temperature.append( altered)
          
          xr=[]
