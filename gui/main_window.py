@@ -69,7 +69,7 @@ class MainWindow(QMainWindow):
         self.plot_widget.plotItem.setTitle('Senzor de rotatie')
         #widget senzor temperatura
         self.plot_widget_2 = pg.PlotWidget()
-        self.plot_widget_2.plotItem.setTitle('Senzor de temperatura')
+        self.plot_widget_2.plotItem.setTitle('Senzor de soc')
         #Am creat un layout de grafice pe care sa il includem in secondary_layout
         plots_layout = QVBoxLayout()
         plots_layout.addWidget(self.plot_widget, 1)
@@ -103,12 +103,12 @@ class MainWindow(QMainWindow):
         self.y_rotation = list(1000 for _ in range(100))  
 
         self.plot_widget.setYRange(0, 200, padding=0)
-        self.penR = pg.mkPen(color=(255, 0, 0))
-        self.brushR = pg.mkBrush(QColor(255, 0, 0))
+        self.penR = pg.mkPen(color=(0, 255, 0))
+        self.brushR = pg.mkBrush(QColor(0, 255, 0))
         self.penG = pg.mkPen(color=(255, 255, 0))
         self.brushG = pg.mkBrush(QColor(255, 255, 0))
-        self.penB = pg.mkPen(color=(0, 0, 255))
-        self.brushB = pg.mkBrush(QColor(0, 0, 255))
+        self.penB = pg.mkPen(color=(255, 0, 0))
+        self.brushB = pg.mkBrush(QColor(255, 0, 0))
         self.data_lineR =  self.plot_widget.scatterPlot(self.x_rotation, self.y_rotation, pen=self.penR,brush=self.brushR)
         self.data_lineG =  self.plot_widget.scatterPlot(self.x_rotation, self.y_rotation, pen=self.penG,brush=self.brushG)
         self.data_lineB =  self.plot_widget.scatterPlot(self.x_rotation, self.y_rotation, pen=self.penB,brush=self.brushB)
@@ -127,7 +127,7 @@ class MainWindow(QMainWindow):
         self.timer.start()
         
     
-        self.srl=serial.Serial('COM9', 38400)
+        self.srl=serial.Serial('COM11', 38400)
         self.last='N'
 
         self.alert_thread=SeismicAlert()
@@ -147,7 +147,7 @@ class MainWindow(QMainWindow):
 
     def alert_temperature(self):
         self.is_alert = True
-        self.player.setSource(QUrl.fromLocalFile("ro_alert.mp3"))
+        self.player.setSource(QUrl.fromLocalFile("alerta.mp3"))
         self.audio_output.setVolume(50)
         self.player.play()
         self.alert_timer.start()
@@ -217,7 +217,7 @@ class MainWindow(QMainWindow):
             altered= int.from_bytes(i,'big')
             altered=altered/1024
             altered=altered
-            if altered>50:
+            if altered>63:
                 if self.is_alert==False:
                     self.alert_thread.start()
             self.y_temperature.append( altered)
